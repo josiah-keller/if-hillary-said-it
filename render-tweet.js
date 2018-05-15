@@ -1,13 +1,16 @@
 var page = require("webpage").create();
 var system = require("system");
 
+// See https://stackoverflow.com/a/37381144/3900404
+system.stdout.setEncoding('ISO-8859-1');
+system.stdin.setEncoding('UTF-8');
+
 var jsonStr = system.stdin.read(), tweet, clipRect;
 
 try {
     tweet = JSON.parse(jsonStr);
 } catch(e) {
-    console.log(jsonStr);
-    console.log("FATAL:", e);
+    system.stderr.write("FATAL: " + e.toString());
 }
 
 page.open("./tweet-renderer/tweet.html", function(status) {
@@ -61,7 +64,7 @@ page.open("./tweet-renderer/tweet.html", function(status) {
     }, tweet);
 
     page.clipRect = clipRect;
-    page.render("tweet.png");
+    page.render("/dev/stdout");
 
     phantom.exit();
 });
