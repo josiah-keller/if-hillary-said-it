@@ -5,7 +5,7 @@ const twitterConfig = require("./config");
 
 const CYCLE_INTERVAL = 5 * 60 * 1000; // 5 minutes
 const MESSAGES = [
-    "Imagine if President Hillary Clinton tweeted this =>",
+    "Imagine if President Hillary Clinton tweeted this",
     "How would you feel if Hillary Clinton were president and said something like this?",
     "Would you be outraged at Hillary Clinton saying this? Then why aren't you outraged at Donald Trump?",
     "What if Hillary Clinton made a comment like this as president?",
