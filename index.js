@@ -67,6 +67,7 @@ function checkTrumpTweets() {
         include_rts: false,
         tweet_mode: "extended",
         since_id: state.lastTweetId,
+        count: 5,
     }).then(tweets => {
         if (tweets.length > 0) {
             tweets.map(processTweet);
