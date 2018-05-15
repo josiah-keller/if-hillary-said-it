@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="twitter_core.css">
+    <link rel="stylesheet" href="twitter_more_1.css">
+    <link rel="stylesheet" href="twitter_more_2.css">
+    <title>Tweet Render</title>
+  </head>
+  <body class="three-col logged-in user-style-HillaryClinton ms-windows PermalinkPage" 
+ dir="ltr">
+    
+<style id="user-style-HillaryClinton">
+  a,
+  a:hover,
+  a:focus,
+  a:active {
+    color: #0057B8;
+  }
+
+  .u-textUserColor,
+  .u-textUserColorHover:hover,
+  .u-textUserColorHover:hover .ProfileTweet-actionCount,
+  .u-textUserColorHover:focus {
+    color: #0057B8 !important;
+  }
+
+  .u-borderUserColor,
+  .u-borderUserColorHover:hover,
+  .u-borderUserColorHover:focus {
+    border-color: #0057B8 !important;
+  }
+
+  .u-bgUserColor,
+  .u-bgUserColorHover:hover,
+  .u-bgUserColorHover:focus {
+    background-color: #0057B8 !important;
+  }
+
+  .u-dropdownUserColor > li:hover,
+  .u-dropdownUserColor > li:focus,
+  .u-dropdownUserColor > li > button:hover,
+  .u-dropdownUserColor > li > button:focus,
+  .u-dropdownUserColor > li > a:focus,
+  .u-dropdownUserColor > li > a:hover {
+    color: #fff !important;
+    background-color: #0057B8 !important;
+  }
+
+  .u-boxShadowInsetUserColorHover:hover,
+  .u-boxShadowInsetUserColorHover:focus {
+    box-shadow: inset 0 0 0 5px #0057B8 !important;
+  }
+
+  .u-dropdownOpenUserColor.dropdown.open .dropdown-toggle {
+    color: #0057B8;
+  }
+
+
+  .u-textUserColorLight {
+    color: #99BBE2 !important;
+  }
+
+  .u-borderUserColorLight,
+  .u-borderUserColorLightFocus:focus,
+  .u-borderUserColorLightHover:hover,
+  .u-borderUserColorLightHover:focus {
+    border-color: #99BBE2 !important;
+  }
+
+  .u-bgUserColorLight {
+    background-color: #99BBE2 !important;
+  }
+
+
+  .u-boxShadowUserColorLighterFocus:focus {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05), inset 0 1px 2px rgba(0,87,184,0.25) !important;
+  }
+
+
+  .u-textUserColorLightest {
+    color: #E5EEF7 !important;
+  }
+
+  .u-borderUserColorLightest {
+    border-color: #E5EEF7 !important;
+  }
+
+  .u-bgUserColorLightest {
+    background-color: #E5EEF7 !important;
+  }
+
+
+  .u-textUserColorLighter {
+    color: #BFD5ED !important;
+  }
+
+  .u-borderUserColorLighter {
+    border-color: #BFD5ED !important;
+  }
+
+  .u-bgUserColorLighter {
+    background-color: #BFD5ED !important;
+  }
+
+
+  .u-bgUserColorDarkHover:hover {
+    background-color: #054D9E !important;
+  }
+
+  .u-borderUserColorDark {
+    border-color: #054D9E !important;
+  }
+
+
+  .u-bgUserColorDarkerActive:active {
+    background-color: #0A4484 !important;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+a,
+.btn-link,
+.btn-link:focus,
+.icon-btn,
+
+
+
+.pretty-link b,
+.pretty-link:hover s,
+.pretty-link:hover b,
+.pretty-link:focus s,
+.pretty-link:focus b,
+
+.metadata a:hover,
+.metadata a:focus,
+
+a.account-group:hover .fullname,
+a.account-group:focus .fullname,
+.account-summary:focus .fullname,
+
+.message .message-text a,
+.message .message-text button,
+.stats a strong,
+.plain-btn:hover,
+.plain-btn:focus,
+.dropdown.open .user-dropdown.plain-btn,
+.open > .plain-btn,
+#global-actions .new:before,
+.module .list-link:hover,
+.module .list-link:focus,
+
+.stats a:hover,
+.stats a:hover strong,
+.stats a:focus,
+.stats a:focus strong,
+
+.find-friends-sources li:hover .source,
+
+
+
+
+
+.stream-item a:hover .fullname,
+.stream-item a:focus .fullname,
+
+.stream-item .view-all-supplements:hover,
+.stream-item .view-all-supplements:focus,
+
+.tweet .time a:hover,
+.tweet .time a:focus,
+.tweet .details.with-icn b,
+.tweet .details.with-icn .Icon,
+
+.stream-item:hover .original-tweet .details b,
+.stream-item .original-tweet.focus .details b,
+.stream-item.open .original-tweet .details b,
+
+.client-and-actions a:hover,
+.client-and-actions a:focus,
+
+.dismiss-btn:hover b,
+
+.tweet .context .pretty-link:hover s,
+.tweet .context .pretty-link:hover b,
+.tweet .context .pretty-link:focus s,
+.tweet .context .pretty-link:focus b,
+
+.list .username a:hover,
+.list .username a:focus,
+.list-membership-container .create-a-list,
+.list-membership-container .create-a-list:hover,
+.new-tweets-bar,
+
+
+
+.card .list-details a:hover,
+.card .list-details a:focus,
+.card .card-body:hover .attribution,
+.card .card-body .attribution:focus {
+  color: #0057B8;
+}
+
+
+
+    #global-actions > li > a {
+      border-bottom-color: #0057B8;
+    }
+
+    #global-actions > li:hover > a,
+    #global-actions > li > a:focus,
+    #global-actions > li.active .text,
+    .DashUserDropdown.dropdown-menu .nightmode-toggle .Icon,
+    .nav.right-actions > li > a:hover,
+    .nav.right-actions > li > a:focus {
+      color: #0057B8;
+    }
+
+
+  
+  .FoundMediaSearch--keyboard .FoundMediaSearch-focusable.is-focused {
+    border-color: #0057B8;
+  }
+
+  
+  .photo-selector:hover .btn,
+  .icon-btn:hover,
+  .icon-btn:active,
+  .icon-btn.active,
+  .icon-btn.enabled {
+    border-color: #0057B8;
+    border-color: rgba(0,87,184,0.4);
+    color: #0057B8;
+  }
+
+  
+  .photo-selector:hover .btn,
+  .icon-btn:hover {
+    background-image: linear-gradient(rgba(255,255,255,0), rgba(0,87,184,0.1));
+  }
+
+  .icon-btn.disabled,
+  .icon-btn.disabled:hover,
+  .icon-btn[disabled],
+  .icon-btn[aria-disabled=true] {
+    color: #0057B8;
+  }
+
+  
+  
+
+  .EdgeButton--primary,
+  .EdgeButton--primary:focus {
+    background-color: #3278C6;
+    border-color: transparent;
+  }
+
+  .EdgeButton--primary:hover,
+  .EdgeButton--primary:active {
+    background-color: #0057B8;
+    border-color: #0057B8;
+  }
+
+  .EdgeButton--primary:focus {
+    box-shadow:
+      0 0 0 2px #FFFFFF,
+      0 0 0 4px #99BBE2;
+  }
+
+  .EdgeButton--primary:active {
+    box-shadow:
+      0 0 0 2px #FFFFFF,
+      0 0 0 4px #3278C6;
+  }
+
+  
+  
+
+  .EdgeButton--secondary,
+  .EdgeButton--secondary:hover,
+  .EdgeButton--secondary:focus,
+  .EdgeButton--secondary:active {
+    border-color: #0057B8;
+    color: #0057B8;
+  }
+
+  .EdgeButton--secondary:hover,
+  .EdgeButton--secondary:active {
+    background-color: #E5EEF7;
+  }
+
+  .EdgeButton--secondary:focus {
+    box-shadow:
+      0 0 0 2px #FFFFFF,
+      0 0 0 4px rgba(0,87,184,0.4);
+  }
+
+  .EdgeButton--secondary:active {
+    box-shadow:
+      0 0 0 2px #FFFFFF,
+      0 0 0 4px #0057B8;
+  }
+
+  
+  
+
+  .EdgeButton--invertedPrimary {
+    color: #0057B8 !important;
+  }
+
+  .EdgeButton--invertedPrimary:focus {
+    box-shadow:
+      0 0 0 2px #0057B8,
+      0 0 0 4px #99BBE2;
+  }
+
+  .EdgeButton--invertedPrimary:active {
+    box-shadow:
+      0 0 0 2px #0057B8,
+      0 0 0 4px #FFFFFF;
+  }
+
+  
+  
+
+  .EdgeButton--invertedSecondary {
+    background-color: #0057B8;
+  }
+
+  .EdgeButton--invertedSecondary:hover {
+    background-color: #3278C6;
+  }
+
+  .EdgeButton--invertedSecondary:focus {
+    box-shadow:
+      0 0 0 2px #0057B8,
+      0 0 0 4px #99BBE2;
+  }
+
+  .EdgeButton--invertedSecondary:active {
+    box-shadow:
+      0 0 0 2px #0057B8,
+      0 0 0 4px #FFFFFF;
+  }
+
+  
+
+  .btn:focus,
+  .btn.focus,
+  .Button:focus,
+  .EmojiPicker-item.is-focused,
+  .EmojiPicker .EmojiCategoryIcon:focus,
+  .EmojiPicker-skinTone:focus + .EmojiPicker-skinToneSwatch,
+  a:focus > img:first-child:last-child,
+  button:focus {
+    box-shadow:
+      0 0 0 2px #FFFFFF,
+      0 0 2px 4px rgba(0,87,184,0.4);
+  }
+
+  .selected-stream-item:focus {
+    box-shadow: 0 0 0 3px rgba(0,87,184,0.4);
+  }
+
+  
+  .js-navigable-stream.stream-table-view .selected-stream-item[tabindex="-1"]:focus {
+    outline: 3px solid rgba(0,87,184,0.4) !important;
+  }
+
+  
+  .js-navigable-stream.stream-table-view .selected-stream-item:focus {
+    box-shadow: none;
+  }
+
+  
+
+  .global-dm-nav.new.with-count .dm-new .count-inner {
+    background: #0057B8;
+  }
+
+  .global-nav .people .count .count-inner {
+    background: #0057B8;
+  }
+
+  .dropdown-menu li > a:hover,
+  .dropdown-menu li > a:focus,
+  .dropdown-menu .dropdown-link:hover,
+  .dropdown-menu .dropdown-link:focus,
+  .dropdown-menu .dropdown-link.is-focused,
+  .dropdown-menu li:hover .dropdown-link,
+  .dropdown-menu li:focus .dropdown-link,
+  .dropdown-menu .selected a,
+  .dropdown-menu .dropdown-link.selected {
+    background-color: #0057B8 !important;
+  }
+
+  /* for items in typeahead dropdown menu on logged in pages */
+  .dropdown-menu .typeahead-items li > a:focus,
+  .dropdown-menu .typeahead-items li > a:hover,
+  .dropdown-menu .typeahead-items .selected,
+  .dropdown-menu .typeahead-items .selected a {
+    background-color: #E5EEF7 !important;
+    color: #0057B8 !important;
+  }
+
+  .typeahead a:hover,
+  .typeahead a:hover strong,
+  .typeahead a:hover .fullname,
+  .typeahead .selected a,
+  .typeahead .selected strong,
+  .typeahead .selected .fullname,
+  .typeahead .selected .Icon--close {
+    color: #0057B8 !important;
+  }
+
+
+.home-tweet-box,
+.LiveVideo-tweetBox,
+.RetweetDialog-commentBox {
+  background-color: #E5EEF7;
+}
+
+.top-timeline-tweetbox .timeline-tweet-box .tweet-form.condensed .tweet-box {
+  color: #0057B8;
+}
+
+.RichEditor,
+.TweetBoxAttachments {
+  border-color: #BFD5ED;
+}
+
+input:focus,
+textarea:focus,
+div[contenteditable="true"]:focus,
+div[contenteditable="true"].fake-focus,
+div[contenteditable="plaintext-only"]:focus,
+div[contenteditable="plaintext-only"].fake-focus {
+  border-color: #99BBE2;
+  box-shadow: inset 0 0 0 1px rgba(0,87,184,0.7);
+}
+
+.tweet-box textarea:focus,
+.tweet-box input[type=text],
+.currently-dragging .tweet-form.is-droppable .tweet-drag-help,
+.tweet-box[contenteditable="true"]:focus,
+.RichEditor.is-fakeFocus,
+.RichEditor.is-fakeFocus ~ .TweetBoxAttachments {
+  border-color: #99BBE2;
+  box-shadow: 0 0 0 1px #99BBE2;
+}
+
+.MomentCapsuleItem.selected-stream-item:focus {
+  box-shadow: 0 0 0 3px rgba(0,87,184,0.4);
+}
+
+
+
+
+s,
+.pretty-link:hover s,
+.pretty-link:focus s,
+.stream-item-activity-notification .latest-tweet .tweet-row a:hover s,
+.stream-item-activity-notification .latest-tweet .tweet-row a:focus s {
+    color: #0057B8;
+}
+
+
+
+.vellip,
+.vellip:before,
+.vellip:after,
+.conversation-module > li:after,
+.conversation-module > li:before,
+.ThreadedConversation--loneTweet:after,
+.ThreadedConversation-tweet:not(.is-hiddenAncestor) ~ .ThreadedConversation-tweet:before,
+.ThreadedConversation-tweet:after,
+.ThreadedConversation-moreReplies:before,
+.ThreadedConversation-viewOther:before,
+.ThreadedConversation-unavailableTweet:before,
+.ThreadedConversation-unavailableTweet:after,
+.ThreadedConversation--permalinkTweetWithAncestors:before,
+.mini-avatar-with-thread:before,
+.permalink.self-thread-permalink-with-descendant .permalink-tweet-container:after,
+.permalink.self-thread-permalink-with-descendant .inline-reply-tweetbox-container:after {
+    border-color: #99BBE2;
+}
+
+
+
+
+.tweet .sm-reply,
+.tweet .sm-rt,
+.tweet .sm-fav,
+.tweet .sm-image,
+.tweet .sm-video,
+.tweet .sm-audio,
+.tweet .sm-geo,
+.tweet .sm-in,
+.tweet .sm-trash,
+.tweet .sm-more,
+.tweet .sm-page,
+.tweet .sm-embed,
+.tweet .sm-summary,
+.tweet .sm-chat,
+
+.timelines-navigation .active .profile-nav-icon,
+.timelines-navigation .profile-nav-icon:hover,
+.timelines-navigation .profile-nav-link:focus .profile-nav-icon,
+
+.sm-top-tweet {
+    background-color: #0057B8;
+}
+
+.enhanced-mini-profile .mini-profile .profile-summary {
+  background-image: url(https://pbs.twimg.com/profile_banners/1339835893/1476893928/mobile);
+}
+
+  #global-tweet-dialog .modal-header,
+  #Tweetstorm-dialog .modal-header {
+    border-bottom: solid 1px rgba(0,87,184,0.25);
+  }
+
+  #global-tweet-dialog .modal-tweet-form-container,
+  #Tweetstorm-dialog .modal-body {
+    background-color: #0057B8;
+    background: rgba(0,87,184,0.1);
+  }
+
+  .TweetstormDialog-reply-context .tweet-box-avatar:after,
+  .TweetstormDialog-reply-context .tweet-box-avatar:before,
+  .TweetstormDialog-tweet-box .tweet-box-avatar:after,
+  .TweetstormDialog-tweet-box .tweet-box-avatar:before {
+    border-color: #99BBE2;
+  }
+
+  .global-nav .search-input:focus,
+  .global-nav .search-input.focus {
+    border: 2px solid #0057B8;
+  }
+}
+
+  .inline-reply-tweetbox {
+    background-color: #E5EEF7;
+  }
+
+</style>
+
+
+<style id="user-style-HillaryClinton-header-img" class="js-user-style-header-img">
+
+    body.user-style-HillaryClinton .enhanced-mini-profile .mini-profile .profile-summary {
+      background-image: url(https://pbs.twimg.com/profile_banners/1339835893/1476893928/web);
+    }
+
+    .DashboardProfileCard-bg {
+      background-image: url(https://pbs.twimg.com/profile_banners/1339835893/1476893928/600x200);
+    }
+
+</style>
+<div class="PermalinkOverlay load-at-boot" id="permalink-overlay">
+  <div class="PermalinkOverlay-modal">
+    <div class="PermalinkOverlay-content">
+      <div class="PermalinkOverlay-body">
+        <div class="permalink-container permalink-container--withArrows">
+          <div role="main" class="permalink light-inline-actions stream-uncapped has-replies original-permalink-page">
+            <div class="permalink-inner permalink-tweet-container">
+              <div id="render-tweet" class="tweet permalink-tweet js-actionable-user js-actionable-tweet js-original-tweet with-social-proof logged-in js-initial-focus" style="border-bottom-right-radius: 8px; border-bottom-left-radius: 8px;">
+                <div class="content clearfix">
+                  <div class="permalink-header">
+                    <a class="account-group js-account-group js-action-profile js-user-profile-link js-nav" href="/HillaryClinton">
+                      <img class="avatar js-action-profile-avatar" src="https://pbs.twimg.com/profile_images/839938827837976576/leN1zJJx_bigger.jpg" alt="">
+                      <span class="FullNameGroup">
+                        <strong class="fullname show-popup-with-id u-textTruncate " >Hillary Clinton</strong><span>&rlm;</span><span class="UserBadges"><img src="verified.png" style="margin-left: 4px; width: 17px; height: 17px;"></span><span class="UserNameBreak">&nbsp;</span><br></span><span class="username u-dir u-textTruncate" dir="ltr" >@<b>HillaryClinton</b></span>
+                    </a>
+                    <small class="time">
+                      <a href="/HillaryClinton/status/994795280510930945" class="tweet-timestamp js-permalink js-nav js-tooltip" title="9:24 PM - 10 May 2018"  data-conversation-id="994795280510930945"><span class="_timestamp js-short-timestamp">May 10</span></a>
+                    </small>
+                  </div>
+                </div>
+                  <div class="js-tweet-text-container">
+                    <p id="render-tweet-text" class="TweetTextSize TweetTextSize--jumbo js-tweet-text tweet-text" lang="en"></p>
+                  </div>
+
+                  <div id="render-quote-tweet" class="QuoteTweet js-tweet-details-fixer">
+                    <div class="QuoteTweet-container">
+                      <a class="QuoteTweet-link js-nav">
+                      </a>
+                      <div class="QuoteTweet-innerContainer u-cf js-permalink js-media-container" data-item-type="tweet">
+                        <div class="tweet-content">
+                          <div class="QuoteTweet-authorAndText u-alignTop">
+                            <div class="QuoteTweet-originalAuthor u-cf u-textTruncate stream-item-header account-group js-user-profile-link">
+                              <b id="render-quote-tweet-name" class="QuoteTweet-fullname u-linkComplex-target"></b><span class="UserBadges"><img id="render-quote-tweet-verified" src="verified.png" style="margin-left: 4px; width: 17px; height: 17px;"></span><span class="UserNameBreak">&nbsp;</span><span class="username u-dir u-textTruncate" dir="ltr" >@<b id="render-quote-tweet-username"></b></span>
+                            </div>
+                            <div id="render-quote-tweet-text" class="QuoteTweet-text tweet-text u-dir js-ellipsis"
+                              lang="en"
+                              dir="ltr"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </body>
+</html>
