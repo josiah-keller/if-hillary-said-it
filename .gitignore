@@ -3,3 +3,4 @@ config.js
 phantomjs.exe
 phantomjs
 tweet.png
+state.json

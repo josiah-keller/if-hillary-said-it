@@ -19,10 +19,42 @@ let state = {
     lastTweetId: 1,
 };
 
-function initialize() {
-    checkTrumpTweets();
+function loadState() {
+    return new Promise((resolve, reject) => {
+        fs.readFile("./state.json", { encoding: "utf-8" }, (err, data) => {
+            if (err) {
+                if (err.code === "ENOENT") {
+                    // No existing state to restore, so just use the default state info
+                    console.log("Starting from default state...");
+                    return resolve(state);
+                }
+                // On an actual error, fail
+                return reject(err);
+            }
+            resolve(JSON.parse(data));
+        });
+    });
+}
 
-    //schedule();
+function saveState() {
+    return new Promise((resolve, reject) => {
+        fs.writeFile("./state.json", JSON.stringify(state), { encoding: "utf-8" }, (err) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve();
+        });
+    });
+}
+
+function initialize() {
+    loadState().then(loadedState => {
+        state = loadedState;
+
+        checkTrumpTweets();
+    }).catch(err => {
+        console.error("FATAL: couldn't restore state from state.json:", err);
+    });
 }
 
 function schedule() {
@@ -34,15 +66,24 @@ function checkTrumpTweets() {
         screen_name: "realDonaldTrump",
         include_rts: false,
         tweet_mode: "extended",
-        count: 1,
         since_id: state.lastTweetId,
     }).then(tweets => {
         if (tweets.length > 0) {
-            processTweet(tweets[0]);
+            tweets.map(processTweet);
+            state.lastTweetId = tweets[0].id;
+            saveState().then(() => {
+                schedule();
+            }).catch(err => {
+                console.error("WARNING: Couldn't persist state to state.json. Continuing, but if process restarts we might see duplicate tweets");
+                schedule();
+            });
+        } else {
+            console.log("No new tweets this cycle");
+            schedule();
         }
     }).catch(err => {
         console.error(err);
-    })
+    });
 }
 
 function processTweet(tweet) {
@@ -50,11 +91,11 @@ function processTweet(tweet) {
         twitter.post("media/upload", { media: image }).then(media => {
             twitter.post("statuses/update",  {
                 status: MESSAGES[Math.floor(Math.random() * MESSAGES.length)],
-                media_ids: media.media_id_string
+                media_ids: media.media_id_string,
             }).then(tweet => {
-                console.log("Sent tweet", tweet);
+                console.log("Sent tweet");
             }).catch(err => {
-                console.log("Couldn't send tweet:", err);
+                console.error("Couldn't send tweet:", err);
             });
         }).catch(err => {
             console.error("FATAL: couldn't upload media:", err);
@@ -76,7 +117,7 @@ function captureScreenshot(tweet) {
             if (! output) {
                 output = data;
             } else {
-                output = Buffer.concat(output, data);
+                output = Buffer.concat([output, data]);
             }
         });
         child.stderr.on("data", (data) => {
