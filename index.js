@@ -17,7 +17,7 @@ const MESSAGES = [
 let cycleTimeout, twitter = new Twitter(twitterConfig);
 
 let state = {
-    lastTweetId: 1,
+    lastTweetId: "1",
 };
 
 function loadState() {
@@ -72,7 +72,7 @@ function checkTrumpTweets() {
     }).then(tweets => {
         if (tweets.length > 0) {
             tweets.map(processTweet);
-            state.lastTweetId = tweets[0].id;
+            state.lastTweetId = tweets[0].id_str;
             saveState().then(() => {
                 schedule();
             }).catch(err => {
