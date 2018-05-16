@@ -9,6 +9,7 @@
   "author": "Josiah Keller",
   "license": "MIT",
   "dependencies": {
+    "puppeteer": "^1.4.0",
     "twitter": "^1.7.1"
   }
 }
