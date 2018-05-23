@@ -2,3 +2,4 @@ node_modules
 config.js
 tweet.png
 state.json
+test/artifacts
