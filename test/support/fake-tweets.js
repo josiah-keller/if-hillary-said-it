@@ -3,7 +3,7 @@ module.exports = [
     {
         "created_at": "Thu May 24 15:24:15 +0000 2018",
         "id_str": "850006245121695744",
-        "text": "Wow, dishonest media very bad & stuff!\nhttps:\/\/t.co\/dEa5dBe3EF",
+        "text": "Wow, dishonest media very bad &amp; stuff!\nhttps:\/\/t.co\/dEa5dBe3EF",
         "user": {
             "id": 2244994945,
             "name": "A User",
