@@ -5,8 +5,10 @@ const puppeteer = require("puppeteer");
 
 const StateManager = require("../state");
 const TweetRenderer = require("../tweet-renderer");
+const main = require("../main");
 
 const FakeTwitter = require("./support/fake-twitter");
+const FakeState = require("./support/fake-state");
 const FAKE_TWEETS = require("./support/fake-tweets");
 
 const readFile = promisify(fs.readFile);
@@ -73,4 +75,61 @@ describe("IfHillarySaidIt", function() {
             });
         });
     });
+    describe("Main", function() {
+        FakeTwitter.tweets = FAKE_TWEETS;
+
+        it("checks for tweets once", function() {
+            return new Promise((resolve, reject) => {
+                let checkCount = 0;
+                FakeTwitter.callback = function(method, endpoint, params) {
+                    if (method === "GET" && endpoint === "statuses/user_timeline") {
+                        checkCount += 1;
+                    }
+                };
+
+                function check() {
+                    assert.strictEqual(checkCount, 1);
+                    resolve();
+                }
+
+                main({ once: true, silent: true, cycleCompleteCallback: check }, FakeTwitter, puppeteer, null, FakeState, TweetRenderer);
+            });
+        });
+
+        it("tweets once for each input tweet", function() {
+            return new Promise((resolve, reject) => {
+                let tweetCount = 0;
+                FakeTwitter.callback = function(method, endpoint, params) {
+                    if (method === "POST" && endpoint === "statuses/update") {
+                        tweetCount += 1;
+                    }
+                };
+
+                function check() {
+                    assert.strictEqual(tweetCount, FAKE_TWEETS.length);
+                    resolve();
+                }
+
+                main({ once: true, silent: true, cycleCompleteCallback: check }, FakeTwitter, puppeteer, null, FakeState, TweetRenderer);
+            });
+        });
+
+        it("uploads one image per tweet", function() {
+            return new Promise((resolve, reject) => {
+                let mediaCount = 0;
+                FakeTwitter.callback = function(method, endpoint, params) {
+                    if (method === "POST" && endpoint === "media/upload") {
+                        mediaCount += 1;
+                    }
+                };
+
+                function check() {
+                    assert.strictEqual(mediaCount, FAKE_TWEETS.length);
+                    resolve();
+                }
+
+                main({ once: true, silent: true, cycleCompleteCallback: check }, FakeTwitter, puppeteer, null, FakeState, TweetRenderer);
+            });
+        });
+    })
 });

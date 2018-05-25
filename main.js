@@ -1,4 +1,4 @@
-module.exports = function main(Twitter, puppeteer, twitterConfig, StateManager, TweetRenderer) {
+module.exports = function main(options, Twitter, puppeteer, twitterConfig, StateManager, TweetRenderer) {
     const CYCLE_INTERVAL = 5 * 60 * 1000; // 5 minutes
     const MESSAGES = [
         "Imagine if President Hillary Clinton tweeted this",
@@ -14,7 +14,7 @@ module.exports = function main(Twitter, puppeteer, twitterConfig, StateManager, 
     function initialize() {
         stateManager.loadState().then(state => {
             if (state.lastTweetId === "1") {
-                console.log("Starting from default state...");
+                if (! options.silent) console.log("Starting from default state...");
             }
 
             checkTrumpTweets();
@@ -24,6 +24,7 @@ module.exports = function main(Twitter, puppeteer, twitterConfig, StateManager, 
     }
 
     function schedule() {
+        if (options.once) return;
         cycleTimeout = setTimeout(checkTrumpTweets, CYCLE_INTERVAL);
     }
 
@@ -36,7 +37,14 @@ module.exports = function main(Twitter, puppeteer, twitterConfig, StateManager, 
             count: 5,
         }).then(tweets => {
             if (tweets.length > 0) {
-                tweets.map(processTweet);
+                let promises = tweets.map(processTweet);
+
+                if (options.cycleCompleteCallback) {
+                    Promise.all(promises).then(() => {
+                        options.cycleCompleteCallback();
+                    });
+                }
+
                 stateManager.state.lastTweetId = tweets[0].id_str;
                 stateManager.saveState().then(() => {
                     schedule();
@@ -45,7 +53,7 @@ module.exports = function main(Twitter, puppeteer, twitterConfig, StateManager, 
                     schedule();
                 });
             } else {
-                console.log("No new tweets this cycle");
+                if (! options.silent) console.log("No new tweets this cycle");
                 schedule();
             }
         }).catch(err => {
@@ -54,22 +62,28 @@ module.exports = function main(Twitter, puppeteer, twitterConfig, StateManager, 
     }
 
     function processTweet(tweet) {
-        tweetRenderer.captureScreenshot(tweet).then(image => {
-            twitter.post("media/upload", { media: image }).then(media => {
-                twitter.post("statuses/update", {
-                    status: MESSAGES[Math.floor(Math.random() * MESSAGES.length)],
-                    media_ids: media.media_id_string,
-                }).then(tweet => {
-                    console.log("Sent tweet");
+        return new Promise((resolve, reject) => {
+            tweetRenderer.captureScreenshot(tweet).then(image => {
+                twitter.post("media/upload", { media: image }).then(media => {
+                    twitter.post("statuses/update", {
+                        status: MESSAGES[Math.floor(Math.random() * MESSAGES.length)],
+                        media_ids: media.media_id_string,
+                    }).then(tweet => {
+                        if (! options.silent) console.log("Sent tweet");
+                        resolve();
+                    }).catch(err => {
+                        console.error("Couldn't send tweet:", err);
+                        reject(err);
+                    });
                 }).catch(err => {
-                    console.error("Couldn't send tweet:", err);
+                    console.error("FATAL: couldn't upload media:", err);
+                    reject(err);
                 });
             }).catch(err => {
-                console.error("FATAL: couldn't upload media:", err);
+                console.error("FATAL: couldn't capture screenshot", err);
+                reject(err);
             });
-        }).catch(err => {
-            console.error("FATAL: couldn't capture screenshot", err);
-        });
+        })
     }
 
     initialize();
