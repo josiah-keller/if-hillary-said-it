@@ -6,6 +6,8 @@ const puppeteer = require("puppeteer");
 const StateManager = require("../state");
 const TweetRenderer = require("../tweet-renderer");
 const main = require("../main");
+const MessageSelector = require("../message-selector");
+const parseTweetText = require("../parse-tweet-text");
 
 const FakeTwitter = require("./support/fake-twitter");
 const FakeState = require("./support/fake-state");
@@ -68,10 +70,20 @@ describe("IfHillarySaidIt", function() {
     });
     describe("Tweet Renderer", function() {
         let tweetRenderer = new TweetRenderer(puppeteer);
-        FAKE_TWEETS.forEach(function(tweet, i) {
+        FAKE_TWEETS.forEach((tweet, i) => {
             it(`renders ${tweet._testDesc} without errors (manually verify at ${artifactsPath}/${i}.png`, async function() {
                 let imageData = await tweetRenderer.captureScreenshot(tweet);
                 await writeFile(`${artifactsPath}/${i}.png`, imageData);
+            });
+        });
+    });
+    describe("Message Selector", function() {
+        let messageSelector = new MessageSelector();
+        FAKE_TWEETS.forEach(tweet => {
+            doesDoesnt = tweet._testOpponentReference ? "does" : "doesn't";
+            it(`detects that a tweet that ${doesDoesnt} reference the opposition ${doesDoesnt} reference the opposition`, function() {
+                let opponentReference = messageSelector.isOpponentReference(parseTweetText(tweet));
+                assert.strictEqual(opponentReference, tweet._testOpponentReference);
             });
         });
     });
@@ -92,7 +104,7 @@ describe("IfHillarySaidIt", function() {
                     resolve();
                 }
 
-                main({ once: true, silent: true, cycleCompleteCallback: check }, FakeTwitter, puppeteer, null, FakeState, TweetRenderer);
+                main({ once: true, silent: true, cycleCompleteCallback: check }, FakeTwitter, puppeteer, null, FakeState, TweetRenderer, MessageSelector);
             });
         });
 
@@ -110,7 +122,7 @@ describe("IfHillarySaidIt", function() {
                     resolve();
                 }
 
-                main({ once: true, silent: true, cycleCompleteCallback: check }, FakeTwitter, puppeteer, null, FakeState, TweetRenderer);
+                main({ once: true, silent: true, cycleCompleteCallback: check }, FakeTwitter, puppeteer, null, FakeState, TweetRenderer, MessageSelector);
             });
         });
 
@@ -128,7 +140,7 @@ describe("IfHillarySaidIt", function() {
                     resolve();
                 }
 
-                main({ once: true, silent: true, cycleCompleteCallback: check }, FakeTwitter, puppeteer, null, FakeState, TweetRenderer);
+                main({ once: true, silent: true, cycleCompleteCallback: check }, FakeTwitter, puppeteer, null, FakeState, TweetRenderer, MessageSelector);
             });
         });
     })

@@ -27,7 +27,8 @@ module.exports = [
             "user_mentions": [     
             ]
         },
-        "_testDesc": "non-extended tweet"
+        "_testDesc": "non-extended tweet",
+        "_testOpponentReference": false,
     },
     // Extended tweet (from https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/intro-to-tweet-json)
     {
@@ -60,7 +61,8 @@ module.exports = [
         "entities": {
             "hashtags": []
         },
-        "_testDesc": "extended tweet"
+        "_testDesc": "extended tweet",
+        "_testOpponentReference": false,
     },
     // Old-style quote tweet (adapted from https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/intro-to-tweet-json)
     {
@@ -92,7 +94,8 @@ module.exports = [
                 }
             ]
         },
-        "_testDesc": "old-style quote tweet"
+        "_testDesc": "old-style quote tweet",
+        "_testOpponentReference": false,
     },
     // New-style quote tweet (ibid)
     {
@@ -125,6 +128,32 @@ module.exports = [
             "urls": [
             ]
         },
-        "_testDesc": "new-style quote tweet"
-    }  
+        "_testDesc": "new-style quote tweet",
+        "_testOpponentReference": false,
+    },
+    // Tweet about opponent
+    {
+        "created_at": "Thu May 24 17:41:57 +0000 2018",
+        "id_str": "994633657141813248",
+        "text": "Funny to watch the Democrats criticize Trade Deals being negotiated by me when they don’t even know what the deals a… https://t.co/U7Se4NM7Eu",
+        "display_text_range": [0, 140],
+        "truncated": true,
+        "user": {
+            "id_str": "944480690",
+            "screen_name": "FloodSocial"
+        },
+        "extended_tweet": {
+            "full_text": "Funny to watch the Democrats criticize Trade Deals being negotiated by me when they don’t even know what the deals are and when for 8 years the Obama Administration did NOTHING on trade except let other countries rip off the United States. Lost almost $800 Billion/year under “O”",
+            "display_text_range": [0, 279],
+            "entities": {
+                "hashtags": []
+            }
+    
+        },
+        "entities": {
+            "hashtags": []
+        },
+        "_testDesc": "tweet about opponent",
+        "_testOpponentReference": true,
+    },
 ];

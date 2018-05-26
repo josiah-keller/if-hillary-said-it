@@ -1,15 +1,9 @@
-module.exports = function main(options, Twitter, puppeteer, twitterConfig, StateManager, TweetRenderer) {
-    const CYCLE_INTERVAL = 5 * 60 * 1000; // 5 minutes
-    const MESSAGES = [
-        "Imagine if President Hillary Clinton tweeted this",
-        "How would you feel if Hillary Clinton were president and said something like this?",
-        "Would you be outraged at Hillary Clinton saying this? Then why aren't you outraged at Donald Trump?",
-        "What if Hillary Clinton made a comment like this as president?",
-        "Donald Trump just said this.  What if it had been Hillary Clinton instead?",
-        "Do you think Trump supporters would like this tweet if it was from Hillary Clinton?",
-    ];
+const parseTweetText = require("./parse-tweet-text");
 
-    let cycleTimeout, twitter = new Twitter(twitterConfig), stateManager = new StateManager(), tweetRenderer = new TweetRenderer(puppeteer);
+module.exports = function main(options, Twitter, puppeteer, twitterConfig, StateManager, TweetRenderer, MessageSelector) {
+    const CYCLE_INTERVAL = 5 * 60 * 1000; // 5 minutes
+
+    let cycleTimeout, twitter = new Twitter(twitterConfig), stateManager = new StateManager(), tweetRenderer = new TweetRenderer(puppeteer), messageSelector = new MessageSelector();
 
     function initialize() {
         stateManager.loadState().then(state => {
@@ -66,7 +60,7 @@ module.exports = function main(options, Twitter, puppeteer, twitterConfig, State
             tweetRenderer.captureScreenshot(tweet).then(image => {
                 twitter.post("media/upload", { media: image }).then(media => {
                     twitter.post("statuses/update", {
-                        status: MESSAGES[Math.floor(Math.random() * MESSAGES.length)],
+                        status: messageSelector.selectMessage(parseTweetText(tweet)),
                         media_ids: media.media_id_string,
                     }).then(tweet => {
                         if (! options.silent) console.log("Sent tweet");
