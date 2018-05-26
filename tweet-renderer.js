@@ -9,7 +9,7 @@ module.exports = class TweetRenderer {
         let browser = await this.puppeteer.launch();
         let page = await browser.newPage();
         await page.goto("file:///" + path.resolve(__dirname, "tweet-renderer/tweet.html"));
-        await page.exposeFunction("parseTweetText", parseTweetText);
+        await page.addScriptTag({ content: parseTweetText.toString() });
         let clipRect = await page.evaluate((tweet) => {
             var $ = function(id) { return document.getElementById(id); };
             var clipRect = {};
