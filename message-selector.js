@@ -30,6 +30,6 @@ module.exports = class MessageSelector {
     }
     selectMessage(tweetText) {
         let pool = this.isOpponentReference(tweetText) ? OPPONENT_REFERENCE_MESSAGES : MESSAGES;
-        return pool[Math.floor(Math.random() * MESSAGES.length)];
+        return pool[Math.floor(Math.random() * pool.length)];
     }
 }
