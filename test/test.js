@@ -88,6 +88,8 @@ describe("IfHillarySaidIt", function() {
         });
     });
     describe("Main", function() {
+        this.timeout(10000); // These tests take awhile
+
         FakeTwitter.tweets = FAKE_TWEETS;
 
         it("checks for tweets once", function() {
