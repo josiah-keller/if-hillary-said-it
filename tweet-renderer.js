@@ -21,7 +21,7 @@ module.exports = class TweetRenderer {
                 $("render-quote-tweet-name").textContent = tweet.quoted_status.user.name;
                 $("render-quote-tweet-username").textContent = tweet.quoted_status.user.screen_name;
                 $("render-quote-tweet-verified").style.display = tweet.quoted_status.user.verified ? "" : "none";
-                $("render-quote-tweet-text").textContent = parseTweetText(tweet.quoted_status);
+                $("render-quote-tweet-text").innerHTML = parseTweetText(tweet.quoted_status);
                 
                 // Slightly hacky way to get rid of the t.co URL for quote tweets
                 for (var i=0; i<tweet.entities.urls.length; i++) {
@@ -33,7 +33,7 @@ module.exports = class TweetRenderer {
                         }
                 }
             }
-            $("render-tweet-text").textContent = tweetText;
+            $("render-tweet-text").innerHTML = tweetText;
     
             var rect = $("render-tweet").getBoundingClientRect();
             clipRect.x = rect.left;
