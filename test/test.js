@@ -12,6 +12,7 @@ const parseTweetText = require("../parse-tweet-text");
 const FakeTwitter = require("./support/fake-twitter");
 const FakeState = require("./support/fake-state");
 const FAKE_TWEETS = require("./support/fake-tweets");
+const FAKE_HILLARY = require("./support/fake-hillary");
 
 const readFile = promisify(fs.readFile);
 const writeFile = promisify(fs.writeFile);
@@ -72,7 +73,7 @@ describe("IfHillarySaidIt", function() {
         let tweetRenderer = new TweetRenderer(puppeteer);
         FAKE_TWEETS.forEach((tweet, i) => {
             it(`renders ${tweet._testDesc} without errors (manually verify at ${artifactsPath}/${i}.png`, async function() {
-                let imageData = await tweetRenderer.captureScreenshot(tweet);
+                let imageData = await tweetRenderer.captureScreenshot(tweet, FAKE_HILLARY);
                 await writeFile(`${artifactsPath}/${i}.png`, imageData);
             });
         });
@@ -91,6 +92,7 @@ describe("IfHillarySaidIt", function() {
         this.timeout(10000); // These tests take awhile
 
         FakeTwitter.tweets = FAKE_TWEETS;
+        FakeTwitter.hillary = FAKE_HILLARY;
 
         it("checks for tweets once", function() {
             return new Promise((resolve, reject) => {

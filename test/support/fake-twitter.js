@@ -10,11 +10,15 @@ class FakeTwitter {
     }
     async get(endpoint, params) {
         FakeTwitter.callback("GET", endpoint, params);
+        if (endpoint === "users/show") {
+            return FakeTwitter.hillary;
+        }
         return FakeTwitter.tweets;
     }
 };
 
 FakeTwitter.tweets = [];
+FakeTwitter.hillary = {};
 FakeTwitter.callback = function() { };
 
 module.exports = FakeTwitter;
