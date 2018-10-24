@@ -10,7 +10,9 @@
   "license": "MIT",
   "dependencies": {
     "puppeteer": "^1.4.0",
-    "twitter": "^1.7.1"
+    "twitter": "^1.7.1",
+    "cryptiles": "^4.1.2",
+    "stringstream": "^1.0.0"
   },
   "devDependencies": {
     "mocha": "^5.2.0"
