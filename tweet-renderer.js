@@ -5,13 +5,14 @@ module.exports = class TweetRenderer {
     constructor(puppeteer) {
         this.puppeteer = puppeteer;
     }
-    async captureScreenshot(tweet) {
+    async captureScreenshot(tweet, hillaryProfile) {
         let browser = await this.puppeteer.launch();
         let page = await browser.newPage();
         await page.goto("file:///" + path.resolve(__dirname, "tweet-renderer/tweet.html"));
         await page.addScriptTag({ content: parseTweetText.toString() });
-        let clipRect = await page.evaluate((tweet) => {
+        let clipRect = await page.evaluate((tweet, hillaryProfile) => {
             var $ = function(id) { return document.getElementById(id); };
+            let promises = [];
             var clipRect = {};
     
             var tweetText = parseTweetText(tweet);
@@ -34,15 +35,25 @@ module.exports = class TweetRenderer {
                 }
             }
             $("render-tweet-text").innerHTML = tweetText;
-    
+            
+            $("profile-pic").src = hillaryProfile.profile_image_url;
+            promises.push(new Promise((resolve, reject) => {
+                $("profile-pic").addEventListener("load", () => {
+                    resolve();
+                });
+                $("profile-pic").addEventListener("error", () => {
+                    reject();
+                });
+            }));
+            
             var rect = $("render-tweet").getBoundingClientRect();
             clipRect.x = rect.left;
             clipRect.y = rect.top;
             clipRect.width = rect.width;
             clipRect.height = rect.height;
     
-            return Promise.resolve(clipRect);
-        }, tweet)
+            return Promise.all(promises).then(() => clipRect);
+        }, tweet, hillaryProfile);
         let image = await page.screenshot({
             clip: clipRect,
         });
